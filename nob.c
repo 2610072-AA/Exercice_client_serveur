@@ -11,8 +11,10 @@
 // that uses raylib(exemple: rlImGui) and needs it's includes and flags, do :
 // #define RAYLIB_NOIMPLEMENTATION 
 #include "noblib_raylib.c"
+#define EXE_NAME "server"
+#define LAB_NAME "serveur_exercice"
+#define RESEAU_LFLAGS "-lws2_32"
 
-#define LAB_NAME "entrypoint"
 int main(int argc, char** argv){
   NOB_GO_REBUILD_URSELF_PLUS(argc, argv,RAYLIB_FILE);
   // ^--- Only needed if you intend on changing the build file, use NOB_GO_REBUILD_URSELF otherwise
@@ -20,18 +22,19 @@ int main(int argc, char** argv){
   if (!mkdir_if_not_exists("build")){ return 1;}
   // ^---- UPDATE THE PATH IF LIBRARIES ARE SOMEWHERE ELSE
   File_Paths o_files = {0};
-  if(!build_raylib(&o_files)) return 1;
+  // if(!build_raylib(&o_files)) return 1;
 
   Cmd cmd = {0};
 
   nob_cc(&cmd);
   cmd_append(&cmd,"-ggdb3");
   nob_cc_inputs(&cmd, "./src/main.cpp",temp_sprintf("./src/%s.cpp",LAB_NAME));
-  cmd_append(&cmd,RAYLIB_INCLUDES);
+  // cmd_append(&cmd,RAYLIB_INCLUDES);
   for(int i =0; i < o_files.count;++i){
       cmd_append(&cmd,o_files.items[i]);
   }
-  nob_cc_output(&cmd, "./Deployment/game.exe");
+  nob_cc_output(&cmd, "./Deployment/"EXE_NAME".exe");
+  cmd_append(&cmd, RESEAU_LFLAGS);
   cmd_append(&cmd,RAYLIB_LFLAGS);
   if(!cmd_run_sync_and_reset(&cmd)) return 1;
 }
