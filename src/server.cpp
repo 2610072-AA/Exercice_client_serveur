@@ -25,6 +25,7 @@ int init_server(void){
         printf("WSAStartup failed: %d\n", iResult);
         return 1;
     }
+    #endif
     ZeroMemory(&hints, sizeof (hints));
     hints.ai_family = AF_INET; // IPv4
     hints.ai_socktype = SOCK_STREAM;

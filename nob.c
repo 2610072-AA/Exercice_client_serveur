@@ -21,7 +21,9 @@ int main(int argc, char** argv){
   if (!mkdir_if_not_exists("Deployment")){ return 1;}
   if (!mkdir_if_not_exists("build")){ return 1;}
   // ^---- UPDATE THE PATH IF LIBRARIES ARE SOMEWHERE ELSE
+  char* name =nob_shift_args(&argc,&argv);
   File_Paths o_files = {0};
+
   // if(!build_raylib(&o_files)) return 1;
 
   Cmd cmd = {0};
